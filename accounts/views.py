@@ -59,3 +59,10 @@ def dashboard_view(request):
         return render(request, 'accounts/dashboard_guest.html')
     else:
         return redirect('unauthorized')
+
+from django.contrib.admin.views.decorators import staff_member_required
+
+@staff_member_required
+def view_logs(request):
+    logs = AccessLog.objects.all().order_by('-timestamp')
+    return render(request, 'accounts/view_logs.html', {'logs': logs})
